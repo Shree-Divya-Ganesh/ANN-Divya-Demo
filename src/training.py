@@ -3,7 +3,7 @@ sys.path.append("E:/Demo-DLCVNLP/ANN-Divya-Demo")
 
 from src.utils.common import read_config
 from src.utils.data_prep import get_data
-from src.utils.model import create_model, save_model
+from src.utils.model import create_model, save_model, save_plot
 import os
 import argparse
 
@@ -34,12 +34,17 @@ def training(config_path):
 
     save_model(model, model_name, model_dir_path)
 
+    # plots_dir = config['artifacts']['plots_dir']
+    save_plot_dir= config['artifacts']['plots_dir']
+    save_plot_dir_path = os.path.join(artifacts_dir, save_plot_dir)
+    os.makedirs(save_plot_dir_path, exist_ok = True)
+
+    plot_name = config['artifacts']['plot_name']
+    save_plot(history, plot_name, save_plot_dir_path)
+
 if __name__ == "__main__":
     
     args = argparse.ArgumentParser()
-
     args.add_argument("--config","-c", default="config.yaml")
-
     parsed_args = args.parse_args()
-
     training(config_path = parsed_args.config)
