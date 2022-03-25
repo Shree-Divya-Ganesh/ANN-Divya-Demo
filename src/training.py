@@ -4,7 +4,6 @@ sys.path.append("E:/Demo-DLCVNLP/ANN-Divya-Demo")
 from src.utils.common import read_config
 from src.utils.data_prep import get_data
 from src.utils.model import create_model, save_model, save_plot
-from src.utils.callbacks import get_callbacks
 import os
 import argparse
 
@@ -24,14 +23,11 @@ def training(config_path):
     NO_OF_EPOCHS = config['params']['epochs']
     VALIDATION_SET = (x_valid, y_valid)
 
-
-    CALLBACK_LIST = get_callbacks(config, x_train)
-
-    history = model.fit(x_train, y_train , epochs = NO_OF_EPOCHS, validation_data = VALIDATION_SET, callbacks =[CALLBACK_LIST])
+    history = model.fit(x_train, y_train , epochs = NO_OF_EPOCHS, validation_data = VALIDATION_SET)
 
     model_name = config['artifacts']['model_name']
     model_dir = config['artifacts']['model_dir']
-    artifacts_dir = config['artifacts']['artifacts_dir']
+    artifacts_dir = config['artifacts']['artificats_dir']
 
     model_dir_path = os.path.join(artifacts_dir, model_dir)
     os.makedirs(model_dir_path, exist_ok = True)
